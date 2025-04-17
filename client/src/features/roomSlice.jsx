@@ -1,9 +1,19 @@
-import React from 'react'
+import { createSlice } from "@reduxjs/toolkit";
 
-function roomSlice() {
-  return (
-    <div>roomSlice</div>
-  )
-}
+const initialState = {
+  roomId: "",
+  userName: "",
+};
 
-export default roomSlice
+const roomSlice = createSlice({
+  name: "room",
+  initialState,
+  reducers: {
+    setRoomDetails: (state, action) => {
+      state.roomId = action.payload.roomId;
+      state.userName = action.payload.userName;
+    },
+  },
+});
+export const { setRoomDetails } = roomSlice.actions;
+export default roomSlice.reducer;
