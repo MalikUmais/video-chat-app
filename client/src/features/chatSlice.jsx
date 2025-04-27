@@ -1,19 +1,42 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+
 const initialState = {
-  messages: [], //include information about {sender,content,timestamp}
+  username: '',
+  messages: [],
+  roomUsers: [],
+  isConnected: false
 };
 
-const peerSlice = createSlice({
-  name: "chat",
+const chatSlice = createSlice({
+  name: 'chat',
   initialState,
   reducers: {
+    setUsername: (state, action) => {
+      state.username = action.payload;
+    },
     addMessage: (state, action) => {
       state.messages.push(action.payload);
     },
-    clearMessages: (state) => {
-      state.messages = [];
+    setRoomUsers: (state, action) => {
+      state.roomUsers = action.payload;
     },
-  },
+    setConnectionStatus: (state, action) => {
+      state.isConnected = action.payload;
+    },
+    clearChat: (state) => {
+      state.messages = [];
+      state.roomUsers = [];
+      state.isConnected = false;
+    }
+  }
 });
-export const { addMessage, clearMessages } = peerSlice.actions;
-export default peerSlice.reducer;
+
+export const { 
+  setUsername, 
+  addMessage, 
+  setRoomUsers, 
+  setConnectionStatus, 
+  clearChat
+} = chatSlice.actions;
+
+export default chatSlice.reducer;

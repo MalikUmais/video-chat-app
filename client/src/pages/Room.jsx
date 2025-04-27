@@ -1,16 +1,33 @@
-import { VideoChat, ChatBox } from "../components";
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import VideoChat from "../components/VideoChat";
 
-function Room() {
+const Room = () => {
+  const { roomId } = useParams();
+  const navigate = useNavigate();
+  const { username } = useSelector((state) => state.chat);
+
+  useEffect(() => {
+    // Redirect to home if no username is set
+    if (!username) {
+      navigate("/", { replace: true });
+    }
+  }, [username, navigate]);
+
+  if (!username) {
+    return null; // Don't render anything while redirecting
+  }
+
   return (
-    <div className="h-screen w-screen flex flex-col md:flex-row bg-gray-100">
-      <div className="flex-1 p-4">
-        <VideoChat />
+    <div className="room-container">
+      <div className="room-header">
+        <h2>Room: {roomId}</h2>
       </div>
-      <div className="w-full md:w-[400px] border-l p-4 bg-white shadow-md">
-        <ChatBox />
-      </div>
+
+      <VideoChat roomId={roomId} />
     </div>
   );
-}
+};
 
 export default Room;
